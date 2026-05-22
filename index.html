@@ -512,10 +512,21 @@ nav{
 .pricing-btn:hover::before{transform:scaleX(1)}
 .pricing-btn:hover{box-shadow:0 20px 60px rgba(200,255,0,0.3)}
 .pricing-btn span,.pricing-btn i{position:relative;z-index:1}
+  
 
 .pricing-secure{
   text-align:center;font-family:'DM Mono',monospace;
   font-size:11px;color:var(--muted);letter-spacing:0.05em;
+}
+.pricing-btn.premium{
+    background: gold;
+    color: black;
+    font-weight: bold;
+    border: 2px solid #d4af37;
+}
+
+.pricing-btn.premium:hover{
+    background: #f5d76e;
 }
 
 .pricing-right{
@@ -1032,7 +1043,9 @@ hr{border:none;border-top:1px solid var(--border-subtle)}
   <p class="pricing-crossed">130€</p>
   <div class="pricing-amount"><sup>€</sup>50</div>
   <p class="pricing-note">OFFRE PREMIUM · ACCÈS À VIE</p>
-  <button class="pricing-btn" onclick="window.location.href='https://noah-talou.systeme.io/be74e5c7'">
+  <button class="pricing-btn premium" onclick="window.location.href='https://noah-talou.systeme.io/be74e5c7'">
+Accéder à l’offre Premium - 50€
+</button>
     <span>Je prends l’offre PREMIUM</span>
     <span>→</span>
   </button>
