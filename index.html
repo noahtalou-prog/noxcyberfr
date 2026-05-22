@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NoxCyberFR — Protège-toi sur Internet</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050507;
+  --bg2: #0c0c10;
+  --bg3: #13131a;
+  --nox: #c8ff00;
+  --nox2: #a8d900;
+  --electric: #00d4ff;
+  --danger: #ff2d55;
+  --text: #f0f0f8;
+  --muted: #5a5a70;
+  --border: rgba(200,255,0,0.1);
+  --border-subtle: rgba(255,255,255,0.06);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  overflow-x:hidden;
+  cursor:default;
+}
+
+/* SCANLINES */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);
+  pointer-events:none;z-index:0;
+}
+
+/* CURSOR DOT */
+.cursor{
+  position:fixed;width:8px;height:8px;
+  background:var(--nox);border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform 0.1s,width 0.2s,height 0.2s;
+}
+
+.cursor-ring{
+  position:fixed;width:32px;height:32px;
+  border:1px solid rgba(200,255,0,0.4);border-radius:50%;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:transform 0.15s ease-out;
+}
+
+section,nav,footer,div.block{position:relative;z-index:1}
+
+/* NAV */
+nav{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0 50px;height:68px;
+  background:rgba(5,5,7,0.95);
+  border-bottom:1px solid var(--border-subtle);
+  position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(24px);
+}
+
+.logo-wrap{display:flex;align-items:center;gap:14px}
+
+.logo-mark{
+  width:36px;height:36px;
+  background:var(--nox);
+  display:flex;align-items:center;justify-content:center;
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+}
+
+.logo-mark span{
+  font-family:'Bebas Neue',cursive;
+  font-size:16px;color:#000;letter-spacing:0;line-height:1;
+}
+
+.logo-text{
+  font-family:'Bebas Neue',cursive;
+  font-size:22px;letter-spacing:0.1em;color:var(--text);
+}
+
+.logo-text em{color:var(--nox);font-style:normal}
+
+.nav-right{display:flex;align-items:center;gap:20px}
+
+.nav-link{
+  font-family:'DM Mono',monospace;
+  font-size:11px;color:var(--muted);
+  letter-spacing:0.12em;text-decoration:none;
+  transition:color 0.2s;
+}
+.nav-link:hover{color:var(--nox)}
+
+.nav-btn{
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;font-weight:700;
+  background:var(--nox);color:#000;
+  padding:10px 24px;border:none;cursor:pointer;
+  letter-spacing:0.04em;
+  transition:all 0.2s;
+  position:relative;overflow:hidden;
+}
+.nav-btn::before{
+  content:'';position:absolute;inset:0;
+  background:#fff;transform:translateX(-100%) skewX(-15deg);
+  transition:transform 0.3s;
+}
+.nav-btn:hover::before{transform:translateX(100%) skewX(-15deg)}
+.nav-btn:hover{box-shadow:0 0 30px rgba(200,255,0,0.4)}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  gap:60px;
+  padding:100px 50px 80px;
+  max-width:1300px;
+  margin:0 auto;
+}
+
+.hero-left{animation:fadeUp 0.8s ease both}
+
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--nox);letter-spacing:0.2em;
+  margin-bottom:36px;
+}
+.hero-eyebrow::before{
+  content:'';width:28px;height:1px;background:var(--nox);
+}
+
+.hero-h1{
+  font-family:'Bebas Neue',cursive;
+  font-size:clamp(72px,9vw,120px);
+  line-height:0.88;
+  letter-spacing:0.02em;
+  margin-bottom:28px;
+}
+
+.hero-h1 .line1{color:var(--text)}
+.hero-h1 .line2{
+  color:transparent;
+  -webkit-text-stroke:1.5px var(--nox);
+}
+.hero-h1 .line3{color:var(--nox)}
+
+.hero-desc{
+  font-size:17px;color:var(--muted);
+  line-height:1.7;max-width:440px;
+  margin-bottom:44px;
+}
+
+.hero-actions{display:flex;flex-direction:column;gap:16px;max-width:320px}
+
+.btn-hero{
+  font-family:'DM Sans',sans-serif;
+  font-size:16px;font-weight:700;
+  background:var(--nox);color:#000;
+  padding:20px 36px;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:all 0.25s;
+  position:relative;overflow:hidden;
+}
+.btn-hero:hover{
+  background:#fff;
+  box-shadow:0 20px 50px rgba(200,255,0,0.25);
+  transform:translateY(-2px);
+}
+
+.btn-hero-arrow{
+  width:36px;height:36px;
+  background:rgba(0,0,0,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+  transition:transform 0.2s;
+}
+.btn-hero:hover .btn-hero-arrow{transform:translateX(4px)}
+
+.hero-trust{
+  display:flex;align-items:center;gap:12px;
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--muted);letter-spacing:0.05em;
+}
+.hero-trust-dot{
+  width:6px;height:6px;background:var(--nox);
+  border-radius:50%;animation:blink 2s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* HERO RIGHT - VISUAL */
+.hero-right{
+  display:flex;justify-content:center;align-items:center;
+  animation:fadeUp 0.8s 0.15s ease both;
+}
+
+.hero-screen{
+  width:100%;max-width:460px;
+  background:var(--bg3);
+  border:1px solid var(--border-subtle);
+  position:relative;overflow:hidden;
+}
+
+.screen-topbar{
+  background:var(--bg2);
+  border-bottom:1px solid var(--border-subtle);
+  padding:12px 20px;
+  display:flex;align-items:center;gap:8px;
+}
+
+.screen-dot{width:10px;height:10px;border-radius:50%}
+.screen-dot.r{background:#ff5f57}
+.screen-dot.y{background:#febc2e}
+.screen-dot.g{background:var(--nox)}
+
+.screen-addr{
+  flex:1;text-align:center;
+  font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);
+}
+
+.screen-body{padding:24px}
+
+.threat-item{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 16px;
+  border:1px solid var(--border-subtle);
+  margin-bottom:6px;
+  background:var(--bg2);
+  position:relative;
+  overflow:hidden;
+  transition:border-color 0.3s;
+}
+.threat-item:hover{border-color:rgba(200,255,0,0.2)}
+
+.threat-item.blocked::after{
+  content:'BLOQUÉ';
+  position:absolute;right:16px;
+  font-family:'DM Mono',monospace;font-size:9px;
+  color:var(--nox);letter-spacing:0.15em;
+}
+.threat-item.blocked::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:2px;background:var(--nox);
+}
+
+.threat-item.danger::after{
+  content:'ALERTE';
+  position:absolute;right:16px;
+  font-family:'DM Mono',monospace;font-size:9px;
+  color:var(--danger);letter-spacing:0.15em;
+}
+.threat-item.danger::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:2px;background:var(--danger);
+}
+
+.threat-icon{font-size:22px;flex-shrink:0}
+.threat-name{font-size:13px;font-weight:500;margin-bottom:2px}
+.threat-desc{font-size:11px;color:var(--muted)}
+
+.screen-score{
+  margin-top:16px;padding:18px;
+  background:rgba(200,255,0,0.05);
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.score-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.1em}
+.score-val{
+  font-family:'Bebas Neue',cursive;
+  font-size:42px;color:var(--nox);line-height:1;
+}
+.score-bar{
+  height:4px;background:var(--bg2);margin-top:10px;
+  position:relative;overflow:hidden;
+}
+.score-fill{
+  height:100%;background:var(--nox);width:87%;
+  animation:fillBar 2s 1s ease both;
+}
+@keyframes fillBar{from{width:0}to{width:87%}}
+
+/* TICKER */
+.ticker-wrap{
+  border-top:1px solid var(--border-subtle);
+  border-bottom:1px solid var(--border-subtle);
+  overflow:hidden;
+  background:var(--bg2);
+  padding:12px 0;
+}
+.ticker-track{
+  display:flex;gap:50px;
+  animation:slide 30s linear infinite;
+  white-space:nowrap;
+}
+.ticker-item{
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--muted);letter-spacing:0.12em;
+  display:flex;align-items:center;gap:10px;flex-shrink:0;
+}
+.ticker-item i{color:var(--nox);font-size:8px}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* STATS */
+.stats-section{max-width:1300px;margin:0 auto;padding:100px 50px}
+
+.section-label{
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--nox);letter-spacing:0.2em;
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:20px;
+}
+.section-label::before{content:'//'}
+
+.section-title{
+  font-family:'Bebas Neue',cursive;
+  font-size:clamp(48px,6vw,80px);
+  line-height:0.92;letter-spacing:0.02em;
+  margin-bottom:60px;
+}
+
+.stats-row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+  margin-bottom:2px;
+}
+
+.stat-block{
+  background:var(--bg2);
+  padding:44px 40px;
+  border:1px solid var(--border-subtle);
+  position:relative;overflow:hidden;
+  transition:border-color 0.3s;
+  group:hover;
+}
+.stat-block:hover{border-color:rgba(200,255,0,0.15)}
+
+.stat-block::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,var(--nox),transparent);
+  opacity:0;transition:opacity 0.3s;
+}
+.stat-block:hover::before{opacity:1}
+
+.stat-n{
+  font-family:'Bebas Neue',cursive;
+  font-size:72px;line-height:1;
+  letter-spacing:0.02em;
+  color:var(--danger);
+  margin-bottom:14px;
+}
+
+.stat-t{font-size:15px;color:var(--muted);line-height:1.6;max-width:220px}
+
+/* MODULES */
+.modules-section{max-width:1300px;margin:0 auto;padding:0 50px 100px}
+
+.modules-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:2px;
+}
+.modules-grid.bottom{
+  grid-template-columns:repeat(3,1fr);
+  margin-top:2px;
+}
+
+.mod-card{
+  background:var(--bg2);
+  border:1px solid var(--border-subtle);
+  padding:32px 28px;
+  position:relative;overflow:hidden;
+  transition:all 0.3s;
+}
+.mod-card:hover{
+  border-color:rgba(200,255,0,0.2);
+  background:var(--bg3);
+  transform:translateY(-3px);
+}
+.mod-card:hover .mod-num{color:var(--nox)}
+
+.mod-num{
+  font-family:'DM Mono',monospace;font-size:10px;
+  color:var(--muted);letter-spacing:0.2em;
+  margin-bottom:24px;
+  transition:color 0.3s;
+}
+
+.mod-icon-wrap{
+  width:44px;height:44px;
+  background:rgba(200,255,0,0.07);
+  border:1px solid rgba(200,255,0,0.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+  margin-bottom:20px;
+}
+
+.mod-title{font-size:16px;font-weight:700;margin-bottom:10px;letter-spacing:-0.01em}
+.mod-desc{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* FOR WHO */
+.forwhom-section{max-width:1300px;margin:0 auto;padding:0 50px 100px}
+
+.forwhom-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:2px;
+}
+
+.fw-card{
+  background:var(--bg2);border:1px solid var(--border-subtle);
+  padding:32px 24px;text-align:center;
+  transition:border-color 0.3s;
+}
+.fw-card:hover{border-color:rgba(0,212,255,0.25)}
+.fw-icon{font-size:36px;display:block;margin-bottom:14px}
+.fw-label{font-size:14px;font-weight:500;line-height:1.4}
+
+/* WHAT YOU GET */
+.gets-section{max-width:1300px;margin:0 auto;padding:0 50px 100px}
+.gets-grid{display:flex;flex-direction:column;gap:2px}
+
+.get-row{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--bg2);border:1px solid var(--border-subtle);
+  padding:28px 36px;
+  transition:border-color 0.3s;
+}
+.get-row:hover{border-color:rgba(200,255,0,0.15)}
+
+.get-left{display:flex;align-items:center;gap:20px}
+
+.get-num{
+  font-family:'Bebas Neue',cursive;font-size:36px;
+  color:rgba(200,255,0,0.2);line-height:1;min-width:44px;
+}
+
+.get-title{font-size:17px;font-weight:700;margin-bottom:4px}
+.get-sub{font-size:13px;color:var(--muted)}
+
+.get-tag{
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:0.12em;padding:6px 14px;
+  border:1px solid var(--border);color:var(--nox);
+  flex-shrink:0;
+}
+
+/* PRICING */
+.pricing-section{max-width:1300px;margin:0 auto;padding:0 50px 100px}
+
+.pricing-wrap{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:2px;
+}
+
+.pricing-left{
+  background:var(--bg2);border:1px solid var(--border-subtle);
+  padding:60px;
+}
+
+.pricing-badge{
+  display:inline-block;
+  background:var(--nox);color:#000;
+  font-family:'DM Mono',monospace;font-size:10px;
+  font-weight:500;letter-spacing:0.15em;
+  padding:6px 14px;margin-bottom:32px;
+}
+
+.pricing-crossed{
+  font-family:'DM Mono',monospace;font-size:14px;
+  color:var(--muted);text-decoration:line-through;
+  margin-bottom:6px;
+}
+
+.pricing-amount{
+  font-family:'Bebas Neue',cursive;
+  font-size:100px;color:var(--nox);
+  line-height:1;letter-spacing:0.02em;
+  margin-bottom:6px;
+}
+.pricing-amount sup{font-size:42px;vertical-align:top;margin-top:14px;display:inline-block}
+
+.pricing-note{
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--muted);letter-spacing:0.08em;margin-bottom:40px;
+}
+
+.pricing-btn{
+  width:100%;background:var(--nox);color:#000;
+  font-family:'DM Sans',sans-serif;font-weight:800;
+  font-size:17px;letter-spacing:0.03em;
+  padding:22px;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:all 0.25s;margin-bottom:16px;
+  position:relative;overflow:hidden;
+}
+.pricing-btn::before{
+  content:'';position:absolute;inset:0;
+  background:#fff;transform:scaleX(0);transform-origin:left;
+  transition:transform 0.3s;
+}
+.pricing-btn:hover::before{transform:scaleX(1)}
+.pricing-btn:hover{box-shadow:0 20px 60px rgba(200,255,0,0.3)}
+.pricing-btn span,.pricing-btn i{position:relative;z-index:1}
+
+.pricing-secure{
+  text-align:center;font-family:'DM Mono',monospace;
+  font-size:11px;color:var(--muted);letter-spacing:0.05em;
+}
+
+.pricing-right{
+  background:var(--bg3);border:1px solid var(--border-subtle);
+  padding:50px 44px;
+  display:flex;flex-direction:column;gap:0;
+}
+
+.pricing-include{
+  display:flex;align-items:flex-start;gap:16px;
+  padding:22px 0;
+  border-bottom:1px solid var(--border-subtle);
+}
+.pricing-include:first-child{padding-top:0}
+.pricing-include:last-child{border-bottom:none;padding-bottom:0}
+
+.pi-check{
+  width:28px;height:28px;flex-shrink:0;
+  background:rgba(200,255,0,0.1);
+  border:1px solid rgba(200,255,0,0.3);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--nox);font-size:13px;
+  font-family:'DM Mono',monospace;
+  margin-top:2px;
+}
+
+.pi-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.pi-desc{font-size:13px;color:var(--muted);line-height:1.5}
+
+/* TESTIMONIALS */
+.testi-section{max-width:1300px;margin:0 auto;padding:0 50px 100px}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+
+.testi-card{
+  background:var(--bg2);border:1px solid var(--border-subtle);
+  padding:36px 32px;
+  position:relative;
+}
+.testi-card::before{
+  content:'"';
+  position:absolute;top:20px;right:28px;
+  font-family:'Bebas Neue',cursive;font-size:80px;
+  color:rgba(200,255,0,0.06);line-height:1;
+}
+
+.testi-stars{
+  display:flex;gap:4px;margin-bottom:20px;
+}
+.testi-star{color:var(--nox);font-size:14px}
+
+.testi-text{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:24px}
+
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(200,255,0,0.1);border:1px solid rgba(200,255,0,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Mono',monospace;font-size:13px;color:var(--nox);font-weight:500;
+}
+.testi-name{font-size:14px;font-weight:600}
+.testi-role{font-size:12px;color:var(--muted)}
+
+/* FAQ */
+.faq-section{max-width:1300px;margin:0 auto;padding:0 50px 100px}
+.faq-grid{display:flex;flex-direction:column;gap:2px}
+
+.faq-item{background:var(--bg2);border:1px solid var(--border-subtle);overflow:hidden}
+
+.faq-q{
+  padding:24px 32px;font-size:16px;font-weight:600;
+  cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+  transition:color 0.2s;user-select:none;letter-spacing:-0.01em;
+}
+.faq-q:hover{color:var(--nox)}
+
+.faq-plus{
+  font-family:'DM Mono',monospace;font-size:20px;
+  color:var(--nox);transition:transform 0.3s;flex-shrink:0;
+}
+.faq-item.open .faq-plus{transform:rotate(45deg)}
+
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height 0.4s ease,padding 0.3s;
+  font-size:14px;color:var(--muted);line-height:1.8;
+  padding:0 32px;
+}
+.faq-item.open .faq-a{max-height:300px;padding:0 32px 28px}
+
+/* CTA FINAL */
+.cta-final{
+  max-width:1300px;margin:0 auto;
+  padding:0 50px 120px;
+}
+
+.cta-box{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  padding:80px;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.cta-box::before{
+  content:'';position:absolute;
+  top:-200px;left:50%;transform:translateX(-50%);
+  width:600px;height:400px;
+  background:radial-gradient(circle,rgba(200,255,0,0.06),transparent 70%);
+  pointer-events:none;
+}
+
+.cta-title{
+  font-family:'Bebas Neue',cursive;
+  font-size:clamp(56px,7vw,96px);
+  line-height:0.9;letter-spacing:0.02em;
+  margin-bottom:24px;
+}
+.cta-sub{
+  font-size:18px;color:var(--muted);
+  max-width:460px;margin:0 auto 44px;line-height:1.6;
+}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:16px;
+  font-family:'DM Sans',sans-serif;font-size:18px;font-weight:800;
+  background:var(--nox);color:#000;
+  padding:22px 52px;border:none;cursor:pointer;
+  letter-spacing:0.03em;transition:all 0.25s;
+}
+.cta-btn:hover{background:#fff;box-shadow:0 20px 80px rgba(200,255,0,0.3);transform:translateY(-3px)}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border-subtle);
+  padding:36px 50px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.footer-logo{
+  font-family:'Bebas Neue',cursive;font-size:20px;
+  letter-spacing:0.1em;color:var(--muted);
+}
+.footer-logo em{color:var(--nox);font-style:normal}
+.footer-links{
+  display:flex;gap:28px;
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--muted);letter-spacing:0.08em;
+}
+.footer-links a{color:inherit;text-decoration:none;transition:color 0.2s}
+.footer-links a:hover{color:var(--nox)}
+.footer-copy{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)}
+
+/* DIVIDER */
+hr{border:none;border-top:1px solid var(--border-subtle)}
+
+/* ANIMATIONS */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(40px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.on{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:0 20px}
+  .hero{grid-template-columns:1fr;padding:60px 20px;gap:50px}
+  .hero-right{display:none}
+  .stats-row,.modules-grid,.forwhom-grid,.testi-grid,.pricing-wrap{grid-template-columns:1fr}
+  .modules-grid.bottom{grid-template-columns:1fr}
+  .stats-section,.modules-section,.forwhom-section,.gets-section,.pricing-section,.testi-section,.faq-section,.cta-final{padding-left:20px;padding-right:20px}
+  .cta-box{padding:44px 24px}
+  .pricing-left{padding:36px 28px}
+  footer{flex-direction:column;gap:20px;padding:28px 20px}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo-wrap">
+    <div class="logo-mark"><span>N</span></div>
+    <div class="logo-text">Nox<em>Cyber</em>FR</div>
+  </div>
+  <div class="nav-right">
+    <a class="nav-link" href="#modules">PROGRAMME</a>
+    <a class="nav-link" href="#pricing">TARIF</a>
+    <button class="nav-btn" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">ACCÉDER →</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section>
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">FORMATION CYBERSÉCURITÉ 2025</div>
+      <h1 class="hero-h1">
+        <span class="line1">PROTÈGE-</span><br>
+        <span class="line2">TOI EN</span><br>
+        <span class="line3">LIGNE.</span>
+      </h1>
+      <p class="hero-desc">La méthode NoxCyberFR pour ne plus jamais se faire pirater. Conçue pour les débutants, prouvée sur le terrain. Zéro jargon. 100% actionnable.</p>
+      <div class="hero-actions">
+        <button class="btn-hero" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">
+          <span>Accéder à la formation</span>
+          <div class="btn-hero-arrow">→</div>
+        </button>
+        <div class="hero-trust">
+          <div class="hero-trust-dot"></div>
+          Accès immédiat après paiement · Satisfait ou remboursé 30j
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-screen">
+        <div class="screen-topbar">
+          <div class="screen-dot r"></div>
+          <div class="screen-dot y"></div>
+          <div class="screen-dot g"></div>
+          <div class="screen-addr">noxcyber.fr — tableau de bord</div>
+        </div>
+        <div class="screen-body">
+          <div class="threat-item blocked">
+            <div class="threat-icon">🎣</div>
+            <div>
+              <div class="threat-name">Tentative de phishing</div>
+              <div class="threat-desc">Email frauduleux — banque@securite.fr</div>
+            </div>
+          </div>
+          <div class="threat-item blocked">
+            <div class="threat-icon">📱</div>
+            <div>
+              <div class="threat-name">SMS suspect</div>
+              <div class="threat-desc">Faux support Orange — lien malveillant</div>
+            </div>
+          </div>
+          <div class="threat-item danger">
+            <div class="threat-icon">🔓</div>
+            <div>
+              <div class="threat-name">Mot de passe compromis</div>
+              <div class="threat-desc">Fuite détectée sur 2 services</div>
+            </div>
+          </div>
+          <div class="threat-item blocked">
+            <div class="threat-icon">📶</div>
+            <div>
+              <div class="threat-name">WiFi non sécurisé</div>
+              <div class="threat-desc">Réseau public — attaque MITM détectée</div>
+            </div>
+          </div>
+          <div class="screen-score">
+            <div>
+              <div class="score-label">TON SCORE DE SÉCURITÉ</div>
+              <div class="score-bar"><div class="score-fill"></div></div>
+            </div>
+            <div class="score-val">87</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="ticker-item"><i>◆</i> PHISHING & ARNAQUES</span>
+    <span class="ticker-item"><i>◆</i> MOTS DE PASSE SOLIDES</span>
+    <span class="ticker-item"><i>◆</i> WIFI PUBLIC SÉCURISÉ</span>
+    <span class="ticker-item"><i>◆</i> PROTECTION SMARTPHONE</span>
+    <span class="ticker-item"><i>◆</i> DOUBLE AUTHENTIFICATION</span>
+    <span class="ticker-item"><i>◆</i> GESTION DES DONNÉES</span>
+    <span class="ticker-item"><i>◆</i> VPN & NAVIGATION PRIVÉE</span>
+    <span class="ticker-item"><i>◆</i> RÉACTION EN CAS DE PIRATAGE</span>
+    <span class="ticker-item"><i>◆</i> PHISHING & ARNAQUES</span>
+    <span class="ticker-item"><i>◆</i> MOTS DE PASSE SOLIDES</span>
+    <span class="ticker-item"><i>◆</i> WIFI PUBLIC SÉCURISÉ</span>
+    <span class="ticker-item"><i>◆</i> PROTECTION SMARTPHONE</span>
+    <span class="ticker-item"><i>◆</i> DOUBLE AUTHENTIFICATION</span>
+    <span class="ticker-item"><i>◆</i> GESTION DES DONNÉES</span>
+    <span class="ticker-item"><i>◆</i> VPN & NAVIGATION PRIVÉE</span>
+    <span class="ticker-item"><i>◆</i> RÉACTION EN CAS DE PIRATAGE</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<section>
+  <div class="stats-section reveal">
+    <p class="section-label">LE PROBLÈME</p>
+    <h2 class="section-title">LES CHIFFRES<br>QUI FONT PEUR.</h2>
+    <div class="stats-row">
+      <div class="stat-block">
+        <div class="stat-n">39s</div>
+        <p class="stat-t">C'est la fréquence d'une cyberattaque en France. Chaque 39 secondes, une nouvelle victime.</p>
+      </div>
+      <div class="stat-block">
+        <div class="stat-n">2M+</div>
+        <p class="stat-t">Français victimes d'arnaques en ligne en 2023. La plupart auraient pu être évitées.</p>
+      </div>
+      <div class="stat-block">
+        <div class="stat-n">95%</div>
+        <p class="stat-t">Des piratages exploitent des erreurs humaines simples — pas des failles techniques complexes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- MODULES -->
+<section id="modules">
+  <div class="modules-section reveal">
+    <p class="section-label">LE PROGRAMME</p>
+    <h2 class="section-title">7 MODULES.<br>RÉSULTATS CONCRETS.</h2>
+    <div class="modules-grid">
+      <div class="mod-card">
+        <p class="mod-num">MODULE 01</p>
+        <div class="mod-icon-wrap">🎯</div>
+        <h3 class="mod-title">Pourquoi te protéger</h3>
+        <p class="mod-desc">Comprends les risques réels et pourquoi tu es une cible — même si tu n'as rien à cacher.</p>
+      </div>
+      <div class="mod-card">
+        <p class="mod-num">MODULE 02</p>
+        <div class="mod-icon-wrap">🎣</div>
+        <h3 class="mod-title">Reconnaître les arnaques</h3>
+        <p class="mod-desc">Phishing, smishing, faux support tech... Repère-les avant qu'il ne soit trop tard.</p>
+      </div>
+      <div class="mod-card">
+        <p class="mod-num">MODULE 03</p>
+        <div class="mod-icon-wrap">🔑</div>
+        <h3 class="mod-title">Mots de passe solides</h3>
+        <p class="mod-desc">Crée des mots de passe imbattables et gère-les facilement sans tout retenir.</p>
+      </div>
+      <div class="mod-card">
+        <p class="mod-num">MODULE 04</p>
+        <div class="mod-icon-wrap">📱</div>
+        <h3 class="mod-title">Sécuriser ses appareils</h3>
+        <p class="mod-desc">Les réglages essentiels à activer sur ton téléphone et ton PC dès aujourd'hui.</p>
+      </div>
+    </div>
+    <div class="modules-grid bottom">
+      <div class="mod-card">
+        <p class="mod-num">MODULE 05</p>
+        <div class="mod-icon-wrap">📶</div>
+        <h3 class="mod-title">WiFi public sans risque</h3>
+        <p class="mod-desc">Ce que le WiFi du café sait sur toi — et comment naviguer sans te faire espionner.</p>
+      </div>
+      <div class="mod-card">
+        <p class="mod-num">MODULE 06</p>
+        <div class="mod-icon-wrap">🚨</div>
+        <h3 class="mod-title">Si tu te fais pirater</h3>
+        <p class="mod-desc">Les étapes d'urgence exactes pour limiter les dégâts et reprendre le contrôle.</p>
+      </div>
+      <div class="mod-card">
+        <p class="mod-num">MODULE 07</p>
+        <div class="mod-icon-wrap">🛡️</div>
+        <h3 class="mod-title">Bonus : les bons réflexes</h3>
+        <p class="mod-desc">La checklist des habitudes à adopter pour rester protégé au quotidien, sans effort.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- FOR WHO -->
+<section>
+  <div class="forwhom-section reveal">
+    <p class="section-label">POUR QUI</p>
+    <h2 class="section-title">CETTE FORMATION<br>EST FAITE POUR TOI.</h2>
+    <div class="forwhom-grid">
+      <div class="fw-card">
+        <span class="fw-icon">👨‍👩‍👧</span>
+        <p class="fw-label">Tu veux protéger ta famille en ligne</p>
+      </div>
+      <div class="fw-card">
+        <span class="fw-icon">🔰</span>
+        <p class="fw-label">Tu es débutant total en informatique</p>
+      </div>
+      <div class="fw-card">
+        <span class="fw-icon">😰</span>
+        <p class="fw-label">Tu as peur de te faire pirater un jour</p>
+      </div>
+      <div class="fw-card">
+        <span class="fw-icon">📧</span>
+        <p class="fw-label">Tu reçois des emails et SMS suspects</p>
+      </div>
+      <div class="fw-card">
+        <span class="fw-icon">🏠</span>
+        <p class="fw-label">Tu utilises internet au quotidien</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- WHAT YOU GET -->
+<section>
+  <div class="gets-section reveal">
+    <p class="section-label">CE QUE TU REÇOIS</p>
+    <h2 class="section-title">TOUT CE QU'IL<br>FAUT POUR ÊTRE<br>PROTÉGÉ.</h2>
+    <div class="gets-grid">
+      <div class="get-row">
+        <div class="get-left">
+          <div class="get-num">01</div>
+          <div>
+            <p class="get-title">7 modules vidéo complets</p>
+            <p class="get-sub">Des explications claires, sans jargon technique, directement applicables</p>
+          </div>
+        </div>
+        <div class="get-tag">INCLUS</div>
+      </div>
+      <div class="get-row">
+        <div class="get-left">
+          <div class="get-num">02</div>
+          <div>
+            <p class="get-title">Guide PDF NoxCyberFR téléchargeable</p>
+            <p class="get-sub">Le cours complet à garder et partager avec tes proches</p>
+          </div>
+        </div>
+        <div class="get-tag">INCLUS</div>
+      </div>
+      <div class="get-row">
+        <div class="get-left">
+          <div class="get-num">03</div>
+          <div>
+            <p class="get-title">Checklist de sécurité prête à l'emploi</p>
+            <p class="get-sub">Applique les mesures essentielles en moins d'une heure</p>
+          </div>
+        </div>
+        <div class="get-tag">BONUS</div>
+      </div>
+      <div class="get-row">
+        <div class="get-left">
+          <div class="get-num">04</div>
+          <div>
+            <p class="get-title">Accès à vie + mises à jour gratuites</p>
+            <p class="get-sub">Les arnaques évoluent — tu seras toujours à jour</p>
+          </div>
+        </div>
+        <div class="get-tag">INCLUS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- TESTIMONIALS -->
+<section>
+  <div class="testi-section reveal">
+    <p class="section-label">ILS L'ONT FAIT</p>
+    <h2 class="section-title">CE QU'ILS<br>EN PENSENT.</h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">J'ai reçu un email de "ma banque" le lendemain de la formation. Je l'ai reconnu immédiatement comme du phishing. Avant, j'aurais cliqué sans hésiter.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">ML</div>
+          <div>
+            <p class="testi-name">Marie L.</p>
+            <p class="testi-role">Retraitée, 64 ans</p>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">Très bien expliqué, sans jargon. J'ai tout compris en moins de 3 heures. J'ai installé Bitwarden et activé la double auth partout. Je me sens enfin protégé.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">TK</div>
+          <div>
+            <p class="testi-name">Thomas K.</p>
+            <p class="testi-role">Étudiant, 23 ans</p>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">J'ai partagé la formation avec toute ma famille. Le module sur le WiFi public m'a particulièrement choqué — je ne savais pas qu'on était autant exposé.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">SB</div>
+          <div>
+            <p class="testi-name">Sophie B.</p>
+            <p class="testi-role">Comptable, 41 ans</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="pricing-section reveal">
+    <p class="section-label">TARIF</p>
+    <h2 class="section-title">INVESTIS DANS<br>TA SÉCURITÉ.</h2>
+    <div class="pricing-wrap">
+      <div class="pricing-left">
+        <div class="pricing-badge">OFFRE DE LANCEMENT</div>
+        <p class="pricing-crossed">97€</p>
+        <div class="pricing-amount"><sup>€</sup>47</div>
+        <p class="pricing-note">PAIEMENT UNIQUE · ACCÈS À VIE</p>
+        <button class="pricing-btn" onclick="alert('Redirige vers ton bon de commande Systeme.io')">
+          <span>Je me protège maintenant</span>
+          <span>→</span>
+        </button>
+        <p class="pricing-secure">🔒 Satisfait ou remboursé 30 jours · Paiement 100% sécurisé</p>
+      </div>
+      <div class="pricing-right">
+        <div class="pricing-include">
+          <div class="pi-check">✓</div>
+          <div>
+            <p class="pi-title">7 modules vidéo complets</p>
+            <p class="pi-desc">Des explications claires, sans jargon, directement applicables dès le premier module</p>
+          </div>
+        </div>
+        <div class="pricing-include">
+          <div class="pi-check">✓</div>
+          <div>
+            <p class="pi-title">Guide PDF NoxCyberFR</p>
+            <p class="pi-desc">Le cours complet en format téléchargeable, à consulter même hors connexion</p>
+          </div>
+        </div>
+        <div class="pricing-include">
+          <div class="pi-check">✓</div>
+          <div>
+            <p class="pi-title">Checklist de sécurité</p>
+            <p class="pi-desc">Applique les mesures essentielles en moins d'une heure, pas à pas</p>
+          </div>
+        </div>
+        <div class="pricing-include">
+          <div class="pi-check">✓</div>
+          <div>
+            <p class="pi-title">Accès à vie + mises à jour</p>
+            <p class="pi-desc">Les cybermenaces évoluent — tu resteras toujours à jour, sans frais supplémentaires</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- FAQ -->
+<section>
+  <div class="faq-section reveal">
+    <p class="section-label">FAQ</p>
+    <h2 class="section-title">TES QUESTIONS,<br>NOS RÉPONSES.</h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Je n'y connais vraiment rien en informatique, c'est pour moi ?
+          <span class="faq-plus">+</span>
+        </div>
+        <div class="faq-a">Absolument. NoxCyberFR a été pensé de A à Z pour les personnes qui ne se considèrent pas "technophiles". Pas de prérequis, pas de jargon. Si tu utilises internet, tu peux suivre cette formation.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Combien de temps faut-il pour tout suivre ?
+          <span class="faq-plus">+</span>
+        </div>
+        <div class="faq-a">Environ 3 à 4 heures au total. Tu peux avancer à ton rythme, module par module, sur plusieurs jours si tu préfères. L'essentiel c'est d'appliquer les conseils au fur et à mesure.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Est-ce que j'ai accès à vie ?
+          <span class="faq-plus">+</span>
+        </div>
+        <div class="faq-a">Oui, l'accès est illimité et à vie. Si de nouveaux modules sont ajoutés ou que le contenu est mis à jour, tu y auras accès automatiquement et gratuitement.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Et si ça ne me convient pas ?
+          <span class="faq-plus">+</span>
+        </div>
+        <div class="faq-a">Tu es couvert par une garantie satisfait ou remboursé de 30 jours. Si la formation ne te convient pas pour quelque raison que ce soit, tu seras remboursé intégralement, sans question posée.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Sur quels appareils puis-je suivre la formation ?
+          <span class="faq-plus">+</span>
+        </div>
+        <div class="faq-a">Sur tous tes appareils : ordinateur, smartphone, tablette. Tu peux commencer sur ton PC le soir et continuer sur ton téléphone le lendemain matin, tout se synchronise.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section>
+  <div class="cta-final reveal">
+    <div class="cta-box">
+      <h2 class="cta-title">PRÊT À TE<br>PROTÉGER ?</h2>
+      <p class="cta-sub">Rejoins NoxCyberFR et ne laisse plus le hasard décider de ta sécurité en ligne.</p>
+      <button class="cta-btn" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">
+        Accéder à la formation →
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Nox<em>Cyber</em>FR</div>
+  <div class="footer-links">
+    <a href="#">Mentions légales</a>
+    <a href="#">Confidentialité</a>
+    <a href="#">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 NoxCyberFR</div>
+</footer>
+
+<script>
+// Custom cursor
+const cur = document.getElementById('cur');
+const ring = document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+
+function animRing(){
+  rx+=(mx-rx)*0.12;
+  ry+=(my-ry)*0.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+
+document.querySelectorAll('button,a,.mod-card,.stat-block,.fw-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{
+    cur.style.width='14px';cur.style.height='14px';
+    ring.style.width='50px';ring.style.height='50px';
+  });
+  el.addEventListener('mouseleave',()=>{
+    cur.style.width='8px';cur.style.height='8px';
+    ring.style.width='32px';ring.style.height='32px';
+  });
+});
+
+// FAQ
+function toggleFaq(el){
+  const item=el.parentElement;
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on')});
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
